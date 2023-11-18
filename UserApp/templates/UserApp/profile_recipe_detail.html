@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}{{ recipe.title }} - {{ category.title }}{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid mt-3 mb-5">
+    <div class="row">
+        {% if recipe.image %}
+        <div class="col-md-auto"><img src="{{ recipe.image.url }}"
+                                      class="main-image"></div>
+        {% endif %}
+        <div class="col">
+            <h2>{{ recipe.title }}</h2>
+            <p class="font-weight-bold">{{ recipe.cooking_time }} мин.</p>
+            <p>{{ recipe.description }}</p>
+            <h5 class="text-left font-italic">Ингредиенты</h5>
+            {% for ingredient in ingredients %}
+            <p>{{ ingredient.title }}...................................{{ ingredient.quantity }}</p>
+            {% endfor %}
+            <p class="text-right font-italic">Добавлено {{ bb.created_at }}</p>
+        </div>
+    </div>
+</div>
+
+{% for cooking_step in cooking_steps %}
+<div class="col d-flex justify-content-left">
+    <div class="card mb-3 w-50 center">
+        <div class="row no-gutters ">
+            <div class="col-md-3">
+                <img class="card-img" src="{% thumbnail cooking_step.image 'default' %}"
+                     alt="{{ cooking_step.step }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Шаг {{ cooking_step.step }}</h5>
+                    <p class="card-text">{{ cooking_step.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<p class="text-right mt-2">
+    <a href="{% url 'change_profile_recipe' pk=recipe.pk %}">Изменить рецепт</a>
+    <a href="{% url 'delete_profile_recipe' pk=recipe.pk %}">Удалить рецепт</a>
+</p>
+{% endblock %}

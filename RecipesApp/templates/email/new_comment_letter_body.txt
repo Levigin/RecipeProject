@@ -1,0 +1,4 @@
+Уважаемый {{ author.username }}!
+Под вашим рецептом {{ comment.recipe.title }}
+Jставили комментарий:
+    "{{ comment.content }}"

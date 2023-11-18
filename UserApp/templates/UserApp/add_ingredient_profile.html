@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Добавление рецепта{% endblock %}
+
+{% block content %}
+<h2 class="text-center font-weight-bold mb-5">Добавление ингридиентов</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h4 class="text-center font-weight-bold mb-5">Ингридиенты</h4>
+    {% bootstrap_formset formset_ingredients layout='horizontal' %}
+    {% buttons submit='Добавить' %}{% endbuttons %}
+</form>
+{% endblock %}

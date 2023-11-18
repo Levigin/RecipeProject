@@ -1,0 +1,57 @@
+{% load bootstrap4 %}
+{% load static %}
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Главная{% endblock %}</title>
+    {% bootstrap_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'RecipesApp/css/style.css' %}">
+    {% bootstrap_javascript jquery='slim' %}
+</head>
+<body class="container-fluid">
+<header class="mb-4">
+    <h1 class="display-1 text-center my">Кулинарное шоу</h1>
+</header>
+
+<div class="row">
+    <ul class="col nav justify-content-end border">
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false">Профиль</a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="{% url 'profile' %}">Moи объявления</a>
+                <a class="dropdown-item" href="{% url 'profile_change' %}">Изменить личные данные</a>
+                <a class="dropdown-item" href="{% url 'password_change' %}">Изменить пароль</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'delete' %}">Удалить</a>
+            </div>
+        </li>
+        {% else %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Bxoд</a></li>
+        {% endif %}
+    </ul>
+</div>
+<div class="row">
+    <nav class="col-md-auto nav flex-column border border-dark">
+        <a class="nav-link root" href="{% url 'main' %}">Главная</a>
+        <hr>
+        {% for category in categories %}
+        <a class="nav-link" href="{% url 'get_category' pk=category.pk %}">{{ category.title }}</a>
+        {% endfor %}
+    </nav>
+    <section class="col border border-dark py-4">
+        {% bootstrap_messages %}
+        {% block content %}
+        {% endblock %}
+    </section>
+</div>
+<footer class="mt-3">
+    <p class="text-right font-italic text-center">&copy; By Levigin</p>
+</footer>
+</body>
+</html>

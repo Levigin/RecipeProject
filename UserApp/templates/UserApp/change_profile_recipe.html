@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Изменение рецепта{% endblock %}
+
+{% block content %}
+<h2 class="text-center font-weight-bold mb-5">Изменение рецепта</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form layout='horizontal' %}
+    <h4 class="text-center font-weight-bold mb-5">Ингридиенты</h4>
+    {% bootstrap_formset formset_ingredients layout='horizontal' %}
+    <h4 class="text-center font-weight-bold mb-5">Шаги приготовления</h4>
+    {% bootstrap_formset formset_cooking_step layout='horizontal' %}
+    {% buttons submit='Изменить' %}{% endbuttons %}
+</form>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}{{ category }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-2 text-center">{{ category.title }}</h2>
+<div class="container-fluid mb-2">
+    <div class="row">
+        <div class="col">&nbsp;</div>
+        <form class="col-md-auto form-inline">
+            {% bootstrap_form form show_label=False %}
+            {% bootstrap_button content='Искать' button_type='submit' %}
+        </form>
+    </div>
+</div>
+{% if recipes %}
+<ul class="list-unstyled">
+    {% for recipe in recipes %}
+    <li class="media my-5 p-3 border">
+        {% url 'detail' category_id=category.pk pk=recipe.pk as url %}
+        <a href="{{ url }}{{ all }}">
+            {% if recipe.image %}
+            <img class="mr-3" src="{% thumbnail recipe.image 'default' %}" alt="Photo">
+            {% else %}
+            <img class="mr-3" src="{% static 'RecipesApp/img/empty.jpg' %}">
+            {% endif %}
+        </a>
+        <div class="media-body">
+            <h3><a href="{{ url }}{{ all }}">{{ recipe.title }}</a></h3>
+            <div>{{ recipe.description }}</div>
+            <p class="text-right font-weight-bold">{{ recipe.cooking_time }} мин.</p>
+            <p class="text-right font-italic">{{ recipe.created_at }}</p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% bootstrap_pagination page url=keyword %}
+{% endif %}
+{% endblock %}

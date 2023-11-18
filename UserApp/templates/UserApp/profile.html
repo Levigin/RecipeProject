@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}Профиль пользователя!{% endblock %}
+
+{% block content %}
+<h2>Профиль пользователя {{user.username}}</h2>
+{% if user.first_name and user.last_name %}
+<p>3дравствуйте, {{ user.first_name }} {{ user.last_name }}!</p>
+{% else %}
+<p>3дравствуите!</p>
+{% endif %}
+<h3>Ваши объявления</h3>
+<p class="text-right font-italic" > <a href="{% url 'add_recipe_profile' %}">Добавить рецепт</a></p>
+{% if recipes %}
+<ul class="list-unstyled">
+    {% for recipe in recipes %}
+    <li class="media my-5 p-3 border">
+        <a href="{% url 'profile_recipe_detail' pk=recipe.pk %}{{ all }}">
+            {% if recipe.image %}
+            <img class="mr-3" src="{% thumbnail recipe.image 'default' %}" alt="Photo">
+            {% else %}
+            <img class="mr-3" src="{% static 'RecipesApp/img/empty.jpg' %}" width="96" height="96">
+            {% endif %}
+        </a>
+        <div class="media-body">
+            <h3><a href="{% url 'profile_recipe_detail' pk=recipe.pk %}{{ all }}">{{ recipe.title }}</a></h3>
+            <p class="text-left mb-2 font-weight-bold">{{ recipe.cooking_time }} мин.</p>
+            <div>{{ recipe.description }}</div>
+            <p class="text-right font-italic">{{ recipe.created_at }}</p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
